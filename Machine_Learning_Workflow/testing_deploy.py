@@ -1,4 +1,3 @@
-from os import name
 from flask import Flask, request, jsonify
 import joblib
  
