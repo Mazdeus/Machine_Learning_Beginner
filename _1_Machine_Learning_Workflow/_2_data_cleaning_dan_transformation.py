@@ -7,6 +7,8 @@ import pandas as pd
 test = pd.read_csv(r"Dataset\test.csv")  # Raw string untuk menghindari masalah escape sequence
 train = pd.read_csv(r"Dataset\train.csv")
 
+# ========================================================================================================================
+
 """
 Mengidentifikasi Informasi Dataset
 Kita akan melihat informasi dasar tentang dataset, seperti jumlah baris, kolom, tipe data, dan jumlah nilai yang hilang. 
