@@ -173,5 +173,64 @@ print("Model Training Selesai.")
 
 # LANGKAH 7 : EVALUASI MODEL
 """
-
+Pada langkah ini, setiap model di evaluasi kinerjanya. Fungsi evaluate_model digunakan 
+untuk menghitung berbagai metrik performa, seperti matriks kebingungannya 
+(confusion matrix), serta skor akurasi, presisi, recall, dan F1-Score. 
 """
+
+# Fungsi untuk mengevaluasi dan mengembalikan hasil sebagai kamus
+def evaluate_model(model, X_test, y_test):
+    y_pred = model.predict(X_test)
+    cm = confusion_matrix(y_test, y_pred)
+    tn, fp, fn, tp = cm.ravel()
+
+    # Visualisasi confusion matrix
+    plt.figure(figsize=(6, 5))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['Predicted No', 'Predicted Yes'], yticklabels=['Actual No', 'Actual Yes'])
+    plt.title(f'Confusion Matrix for {model.__class__.__name__}')
+    plt.xlabel('Predicted Labels')
+    plt.ylabel('True Labels')
+    plt.show()
+
+    results = {
+        'Confusion Matrix': cm,
+        'True Positive (TP)': tp,
+        'False Positive (FP)': fp,
+        'False Negative (FN)': fn,
+        'True Negative (TN)': tn,
+        'Accuracy': accuracy_score(y_test, y_pred),
+        'Precision': precision_score(y_test, y_pred),
+        'Recall': recall_score(y_test, y_pred),
+        'F1-Score': f1_score(y_test, y_pred)
+    }
+
+    return results
+
+# Mengevaluasi setiap model dan mengumpulkan hasilnya
+result = {
+    'K-Nearest Neighbors (KNN)': evaluate_model(knn, X_test, y_test),
+    'Decision Tree (DT)': evaluate_model(dt, X_test, y_test),
+    'Random Forest (RF)': evaluate_model(rf, X_test, y_test),
+    'Support Vector Machine (SVM)': evaluate_model(svm, X_test, y_test),
+    'Naive Bayes (NB)': evaluate_model(nb, X_test, y_test)
+}
+
+# Buat dataframe untuk meringkas hasil
+summary_df = pd.DataFrame(columns=['Model', 'Accuracy', 'Precision', 'Recall', 'F1-Score'])
+
+# Isi DataFrame dengan hasil
+rows = []
+for model_name, metrics in result.items():
+    rows.append({
+        'Model': model_name,
+        'Accuracy': metrics['Accuracy'],
+        'Precision': metrics['Precision'],
+        'Recall': metrics['Recall'],
+        'F1-Score': metrics['F1-Score']
+    })
+
+# Konversi daftar kamus ke DataFrame
+summary_df = pd.DataFrame(rows)
+
+# Tampilkan DataFrame
+print(summary_df)
