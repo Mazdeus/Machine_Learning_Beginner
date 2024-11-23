@@ -91,7 +91,7 @@ Metode dengan menghapus outliner
 # categorical_features = df.select_dtypes(include=['object']).columns
 # df = pd.concat([df_filtered_numeric, df.loc[condition, categorical_features]], axis=1)
 
-# for feature in numeric_features:
+# for feature in df.columns:
 #     plt.figure(figsize=(10,6))
 #     sns.boxplot(x=df[feature])
 #     plt.title(f'Box Plot of {feature}')
